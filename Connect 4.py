@@ -5,6 +5,7 @@ Final Project
 This program will allow 2 users to play connect 4 against each other.
 """
 from graphics import*
+import time
 """
 main():
 Description: Will call the methods that create the window and the board and the
@@ -62,9 +63,13 @@ def connect4(win):
     if checkScore(board) == "X":
         winner = Text(Point(width/2, height-20),"Player 1 Wins!")
         winner.draw(win)
+        time.sleep(5)
+        win.close()
     else:
         winner = Text(Point(width/2, height-20), "Player 2 Wins!")
         winner.draw(win)
+        time.sleep(5)
+        win.close()
 
 def playerMove(col, row, turn, board):
     # O is yellow and X is red
