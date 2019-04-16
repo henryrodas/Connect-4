@@ -46,15 +46,19 @@ def connect4(win):
     widthLength = width/8
     circleRadiusHalf = width/14.0 - 10 /2
     turn = 0
+    print boardHeight
     while checkScore(board) == None:
         click = win.getMouse()
         for i in range(7):
             if widthLength - circleRadiusHalf < click.getX() < widthLength + \
                circleRadiusHalf:
-                turn += 1
-                playerMove(i, colHeightList[i] / (boardHeight/7)-1, turn,board)
-                clickCircle(turn, i+1, colHeightList[i], win)
-                colHeightList[i] += boardHeight/7
+                #had to fix it the hard way --> fix it so that it works on any
+                if colHeightList[i] < boardHeight-50:
+                    turn += 1
+                    playerMove(i, colHeightList[i] / (boardHeight/7)-1, turn,board)
+                    clickCircle(turn, i+1, colHeightList[i], win)
+                    colHeightList[i] += boardHeight/7
+                    print colHeightList[i]
             widthLength += width/8
             
         widthLength = width/8
@@ -74,7 +78,8 @@ def connect4(win):
 def playerMove(col, row, turn, board):
     # O is yellow and X is red
     turnList = ["O", "X"]
-    board[row] = board[row][:col] + turnList[turn%2] + board[row][col+1:]
+    if row < 6 and col < 7:
+        board[row] = board[row][:col] + turnList[turn%2] + board[row][col+1:]
 """
 Description: Draws the connect 4 board 
 Parameters: 
