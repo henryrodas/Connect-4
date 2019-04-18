@@ -33,19 +33,17 @@ def connect4(win):
              "BBBBBBB"]
     width = win.getWidth()
     height = win.getHeight()
+    score1 = 0
+    score2 = 0
+    player1Score = Text(Point(width/10, height*0.9),"{}".format(score1))
+    player2Score = Text(Point(width*0.8, height*0.9), "{}".format(score2))
     boardHeight = height/7*6
-    colHeight1 = boardHeight/7
-    colHeight2 = boardHeight/7
-    colHeight3 = boardHeight/7
-    colHeight4 = boardHeight/7
-    colHeight5 = boardHeight/7
-    colHeight6 = boardHeight/7
-    colHeight7 = boardHeight/7
-    colHeightList = [colHeight1,colHeight2, colHeight3, colHeight4, colHeight5,\
-                     colHeight6, colHeight7]
+    colHeightList = [boardHeight/7,boardHeight/7, boardHeight/7, boardHeight/7, \
+                     boardHeight/7, boardHeight/7, boardHeight/7]
     widthLength = width/8
     circleRadiusHalf = width/14.0 - 10 /2
     turn = 0
+    
     print boardHeight
     while checkScore(board) == None:
         click = win.getMouse()
@@ -63,14 +61,19 @@ def connect4(win):
             
         widthLength = width/8
         
-        
     if checkScore(board) == "X":
-        winner = Text(Point(width/2, height-20),"Player 1 Wins!")
+        score1 += 1
+        winner = Text(Point(width/2 + 30, height-20),"Player 1 Wins!")
+        winner.setSize(20)
+        player1Score = Text(Point(width/10, height*0.9),"{}".format(score1))
         winner.draw(win)
         time.sleep(5)
         win.close()
     else:
-        winner = Text(Point(width/2, height-20), "Player 2 Wins!")
+        score2 += 1
+        winner = Text(Point(width/2 + 30, height-20), "Player 2 Wins!")
+        winner.setSize(20)
+        player2Score = Text(Point(width*0.8, height*0.9), "{}".format(score2))
         winner.draw(win)
         time.sleep(5)
         win.close()
@@ -117,16 +120,20 @@ def checkScore(board):
         for j in range(7):
             letter = board[i][j]
             if letter != "B":
+                #checks vertically for 4
                 if i < 4:
                     if letter == board[i+1][j] == board[i+2][j] ==board[i+3][j]:
                         return letter
+                #checks horizontally to the right for 4
                 if j < 4:
                     if letter == board[i][j+1] == board[i][j+2]== board[i][j+3]:
                         return letter
+                #checks diagonally (up right) for 4
                 if j < 4 and i < 4:
                     if letter == board[i+1][j+1] == board[i+2][j+2] == \
                        board[i+3][j+3]:
                         return letter
+                #checks diagonally (up left) for 4
                 if j > 2 and i < 3:
                     if letter == board[i+1][j-1] == board[i+2][j-2] == \
                        board[i+3][j-3]:
