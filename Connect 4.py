@@ -15,11 +15,46 @@ Returns: None
 Plan: Calls the methods that create the window and board and call connect4
 """
 def main():
-    win = GraphWin("Connect 4",700,700)
-    win.yUp()
-    makeBoard(win)
-    connect4(win)
+    numRounds = askRound()
+    print numRounds
+    #win = GraphWin("Connect 4",700,700)
+    #win.yUp()
+    #makeBoard(win)
+    #connect4(win)
 
+def askRound():
+    roundwindow = GraphWin("Rounds",500,500)
+    roundwindow.yUp()
+    height = roundwindow.getHeight()
+    width = roundwindow.getHeight()
+    option1 = Rectangle(Point(0,height*6/7),Point(width/3,0))
+    option1.setFill("green")
+    option2 = Rectangle(Point(width/3, height*6/7),Point(width*2/3,0))
+    option2.setFill("yellow")
+    option3 = Rectangle(Point(width*2/3,height*6/7),Point(width,0))
+    option3.setFill("red")
+    question = Text(Point(width/2, height*6.5/7),"HOW MANY ROUNDS DO YOU WANT TO PLAY?")
+    optiontext1 = Text(Point(width/6, height*3/7), "1 ROUND")
+    optiontext2 = Text(Point(width/2, height*3/7), "3 ROUNDS")
+    optiontext3 = Text(Point(width*5/6, height*3/7), "5 ROUNDS")
+    question.draw(roundwindow)
+    option1.draw(roundwindow)
+    optiontext1.draw(roundwindow)
+    option2.draw(roundwindow)
+    optiontext2.draw(roundwindow)
+    option3.draw(roundwindow)
+    optiontext3.draw(roundwindow)
+    click = roundwindow.getMouse()
+    clickX = click.getX()
+    if clickX < width/3:
+        roundwindow.close()
+        return 1
+    elif width/3 < clickX < width*2/3:
+        roundwindow.close()
+        return 3
+    else:
+        roundwindow.close()
+        return 5
 """
 Description: 
 Parameters: 
@@ -35,8 +70,10 @@ def connect4(win):
     height = win.getHeight()
     score1 = 0
     score2 = 0
-    player1Score = Text(Point(width/10, height*0.9),"{}".format(score1))
-    player2Score = Text(Point(width*0.8, height*0.9), "{}".format(score2))
+    player1Score = Text(Point(width/10 + 60, height*0.9),"{}".format(score1))
+    player2Score = Text(Point(width*0.8 + 60, height*0.9), "{}".format(score2))
+    player1Score.draw(win)
+    player2Score.draw(win)
     boardHeight = height/7*6
     colHeightList = [boardHeight/7,boardHeight/7, boardHeight/7, boardHeight/7, \
                      boardHeight/7, boardHeight/7, boardHeight/7]
@@ -65,7 +102,9 @@ def connect4(win):
         score1 += 1
         winner = Text(Point(width/2 + 30, height-20),"Player 1 Wins!")
         winner.setSize(20)
-        player1Score = Text(Point(width/10, height*0.9),"{}".format(score1))
+        player1Score.undraw()
+        player1Score = Text(Point(width/10 + 60, height*0.9),"{}".format(score1))
+        player1Score.draw(win)
         winner.draw(win)
         time.sleep(5)
         win.close()
@@ -73,8 +112,10 @@ def connect4(win):
         score2 += 1
         winner = Text(Point(width/2 + 30, height-20), "Player 2 Wins!")
         winner.setSize(20)
-        player2Score = Text(Point(width*0.8, height*0.9), "{}".format(score2))
+        player2Score.undraw()
+        player2Score = Text(Point(width*0.8 + 60, height*0.9), "{}".format(score2))
         winner.draw(win)
+        player2Score.draw(win)
         time.sleep(5)
         win.close()
 
