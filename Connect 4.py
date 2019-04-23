@@ -30,39 +30,82 @@ number of rounds and I will check where the user clicked so that I can return
 the number of rounds they wanted.
 """
 def askRound():
+    """
+    put for loop
+    """
     roundwindow = GraphWin("Rounds",500,500)
     roundwindow.yUp()
     height = roundwindow.getHeight()
     width = roundwindow.getHeight()
-    option1 = Rectangle(Point(0,height*6/7),Point(width/3,0))
-    option1.setFill("green")
-    option2 = Rectangle(Point(width/3, height*6/7),Point(width*2/3,0))
-    option2.setFill("yellow")
-    option3 = Rectangle(Point(width*2/3,height*6/7),Point(width,0))
-    option3.setFill("red")
     question = Text(Point(width/2, height*6.5/7),"HOW MANY ROUNDS DO YOU WANT TO PLAY?")
-    optiontext1 = Text(Point(width/6, height*3/7), "1 ROUND")
-    optiontext2 = Text(Point(width/2, height*3/7), "3 ROUNDS")
-    optiontext3 = Text(Point(width*5/6, height*3/7), "5 ROUNDS")
+    button1 = Circle(Point(width/3, height*5/7),50)
+    button1.setFill("red")
+    button1.draw(roundwindow)
+    buttonnum1 = Text(Point(width/3,height*5/7-60),"1")
+    buttonnum1.draw(roundwindow)
+    button2 = Circle(Point(width*2/3, height*5/7),50)
+    button2.setFill("red")
+    buttonnum2 = Text(Point(width*2/3,height*5/7 -60),"2")
+    buttonnum2.draw(roundwindow)
+    button2.draw(roundwindow)
+    button3 = Circle(Point(width/3, height*3/7),50)
+    button3.setFill("red")
+    button3.draw(roundwindow)
+    buttonnum3 = Text(Point(width/3,height*3/7-60),"3")
+    buttonnum3.draw(roundwindow)
+    button4 = Circle(Point(width*2/3, height*3/7),50)
+    button4.setFill("red")
+    buttonnum4 = Text(Point(width*2/3,height*3/7 -60),"4")
+    buttonnum4.draw(roundwindow)
+    button4.draw(roundwindow)
+    button5 = Circle(Point(width/2,height/7),50)
+    button5.setFill("red")
+    button5.draw(roundwindow)
+    buttonnum5 = Text(Point(width/2,height/7 -60),"5")
+    buttonnum5.draw(roundwindow)
+    
     question.draw(roundwindow)
-    option1.draw(roundwindow)
-    optiontext1.draw(roundwindow)
-    option2.draw(roundwindow)
-    optiontext2.draw(roundwindow)
-    option3.draw(roundwindow)
-    optiontext3.draw(roundwindow)
     click = roundwindow.getMouse()
     clickX = click.getX()
+    clickY = click.getY()
     #checks where click is
-    if clickX < width/3:
+    if width/3-50<=clickX<= width/3+50 and height*5/7-60<clickY<height*5/7+60:
+        button1.undraw()
+        button1.setFill("green")
+        button1.draw(roundwindow)
+        time.sleep(1)
         roundwindow.close()
         return 1
-    elif width/3 < clickX < width*2/3:
+    elif width*2/3-50<=clickX<= width*2/3+50 and height*5/7-60<clickY<height*5/7+60:
+        button2.undraw()
+        button2.setFill("green")
+        button2.draw(roundwindow)
+        time.sleep(1)
+        roundwindow.close()
+        return 2
+    elif width/3-50<=clickX<= width/3+50 and height*3/7-60<clickY<height*3/7+60:
+        button3.undraw()
+        button3.setFill("green")
+        button3.draw(roundwindow)
+        time.sleep(1)
         roundwindow.close()
         return 3
-    else:
+    
+    elif width*2/3-50<=clickX<= width*2/3+50 and height*3/7-60<clickY<height*3/7+60:
+        button4.undraw()
+        button4.setFill("green")
+        button4.draw(roundwindow)
+        time.sleep(1)
+        roundwindow.close()
+        return 4
+    elif width/2-50<=clickX<=width/2+50 and height/7-50<=clickY<= height/7+50:
+        button5.undraw()
+        button5.setFill("green")
+        button5.draw(roundwindow)
+        time.sleep(1)
         roundwindow.close()
         return 5
+    click = roundwindow.getMouse()
 """
 Description: Will run the game using the other major methods
 Parameters:
