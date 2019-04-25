@@ -30,9 +30,7 @@ number of rounds and I will check where the user clicked so that I can return
 the number of rounds they wanted.
 """
 def askRound():
-    """
-    put for loop
-    """
+    clickButton = False
     roundwindow = GraphWin("Rounds",500,500)
     roundwindow.yUp()
     height = roundwindow.getHeight()
@@ -63,49 +61,57 @@ def askRound():
     button5.draw(roundwindow)
     buttonnum5 = Text(Point(width/2,height/7 -60),"5")
     buttonnum5.draw(roundwindow)
-    
     question.draw(roundwindow)
-    click = roundwindow.getMouse()
-    clickX = click.getX()
-    clickY = click.getY()
-    #checks where click is
-    if width/3-50<=clickX<= width/3+50 and height*5/7-60<clickY<height*5/7+60:
-        button1.undraw()
-        button1.setFill("green")
-        button1.draw(roundwindow)
-        time.sleep(1)
-        roundwindow.close()
-        return 1
-    elif width*2/3-50<=clickX<= width*2/3+50 and height*5/7-60<clickY<height*5/7+60:
-        button2.undraw()
-        button2.setFill("green")
-        button2.draw(roundwindow)
-        time.sleep(1)
-        roundwindow.close()
-        return 2
-    elif width/3-50<=clickX<= width/3+50 and height*3/7-60<clickY<height*3/7+60:
-        button3.undraw()
-        button3.setFill("green")
-        button3.draw(roundwindow)
-        time.sleep(1)
-        roundwindow.close()
-        return 3
-    
-    elif width*2/3-50<=clickX<= width*2/3+50 and height*3/7-60<clickY<height*3/7+60:
-        button4.undraw()
-        button4.setFill("green")
-        button4.draw(roundwindow)
-        time.sleep(1)
-        roundwindow.close()
-        return 4
-    elif width/2-50<=clickX<=width/2+50 and height/7-50<=clickY<= height/7+50:
-        button5.undraw()
-        button5.setFill("green")
-        button5.draw(roundwindow)
-        time.sleep(1)
-        roundwindow.close()
-        return 5
-    click = roundwindow.getMouse()
+    #keeps on checking for the click on one of the buttons
+    while clickButton == False:
+        click = roundwindow.getMouse()
+        clickX = click.getX()
+        clickY = click.getY()
+        #checks if user clicked on the first button
+        if width/3-50<=clickX<= width/3+50 and height*5/7-60<clickY<height*5/7+60:
+            button1.undraw()
+            button1.setFill("green")
+            button1.draw(roundwindow)
+            time.sleep(1)
+            clickButton = True
+            roundwindow.close()
+            return 1
+        #checks if the user clicked on the second button
+        elif width*2/3-50<=clickX<= width*2/3+50 and height*5/7-60<clickY<height*5/7+60:
+            button2.undraw()
+            button2.setFill("green")
+            button2.draw(roundwindow)
+            time.sleep(1)
+            clickButton = True
+            roundwindow.close()
+            return 2
+        #checks if the user clicked on the third button
+        elif width/3-50<=clickX<= width/3+50 and height*3/7-60<clickY<height*3/7+60:
+            button3.undraw()
+            button3.setFill("green")
+            button3.draw(roundwindow)
+            time.sleep(1)
+            clickButton = True
+            roundwindow.close()
+            return 3
+        #checks if the user clicked on the fourth button
+        elif width*2/3-50<=clickX<= width*2/3+50 and height*3/7-60<clickY<height*3/7+60:
+            button4.undraw()
+            button4.setFill("green")
+            button4.draw(roundwindow)
+            time.sleep(1)
+            clickButton = True
+            roundwindow.close()
+            return 4
+        #checks if the user clicked on the fifth button
+        elif width/2-50<=clickX<=width/2+50 and height/7-50<=clickY<= height/7+50:
+            button5.undraw()
+            button5.setFill("green")
+            button5.draw(roundwindow)
+            time.sleep(1)
+            clickButton = True
+            roundwindow.close()
+            return 5
 """
 Description: Will run the game using the other major methods
 Parameters:
@@ -128,6 +134,7 @@ def connect4(rounds, win):
     player2Score.draw(win)
     score1 = 0
     score2 = 0
+    moves = 0
     for i in range(rounds):
         makeBoard(win)
         board = ["BBBBBBB","BBBBBBB","BBBBBBB","BBBBBBB","BBBBBBB",\
@@ -138,9 +145,11 @@ def connect4(rounds, win):
         widthLength = width/8
         circleRadiusHalf = width/14.0 - 10 /2
         turn = 0
-    
+        roundsText = Text(Point(width/2,height*6/7+15),"ROUND {}".format(i+1))
+        roundsText.setSize(20)
+        roundsText.draw(win)
         #checks if any of the players have won yet
-        while checkScore(board) == None:
+        while checkScore(board) == None or turns != 42:
             click = win.getMouse()
             for j in range(7):
                 if widthLength - circleRadiusHalf < click.getX() < widthLength + \
@@ -148,6 +157,7 @@ def connect4(rounds, win):
                     #had to fix it the hard way --> fix it so that it works on any
                     if colHeightList[j] < boardHeight-50:
                         turn += 1
+
                         playerMove(j, colHeightList[j] / (boardHeight/7)-1, turn,board)
                         clickCircle(turn, j+1, colHeightList[j], win)
                         colHeightList[j] += boardHeight/7
@@ -164,7 +174,16 @@ def connect4(rounds, win):
             winner.draw(win)
             time.sleep(3)
             winner.undraw()
-
+            roundsText.undraw()
+        elif turn == 42:
+            winner = Text(Point(width/2 + 30, height-20),"Both Players Tie The Round!")
+            winner.setSize(20)
+            player2Score.undraw()
+            winner.draw(win)
+            player2Score.draw(win)
+            time.sleep(3)
+            winner.undraw()
+            roundsText.undraw()
         #adds to the score for the second player
         else:
             score2 += 1
@@ -176,6 +195,7 @@ def connect4(rounds, win):
             player2Score.draw(win)
             time.sleep(3)
             winner.undraw()
+            roundsText.undraw()
             
         #checks if they played all the rounds
         if i + 1 == rounds:
@@ -185,8 +205,14 @@ def connect4(rounds, win):
                 winner.draw(win)
                 time.sleep(5)
                 win.close()
-            else:
+            elif score2 > score1:
                 winner = Text(Point(width/2 + 30, height-20), "Player 2 Wins The Game!")
+                winner.setSize(20)
+                winner.draw(win)
+                time.sleep(5)
+                win.close()
+            elif score1 == score2:
+                winner = Text(Point(width/2 + 30, height-20), "Both Players Tie!")
                 winner.setSize(20)
                 winner.draw(win)
                 time.sleep(5)
@@ -257,8 +283,8 @@ def checkScore(board):
         for j in range(7):
             letter = board[i][j]
             if letter != "B":
-                #checks vertically for 4
-                if i < 4:
+                #checks vertically up for 4
+                if i < 3:
                     if letter == board[i+1][j] == board[i+2][j] ==board[i+3][j]:
                         return letter
                 #checks horizontally to the right for 4
@@ -266,9 +292,9 @@ def checkScore(board):
                     if letter == board[i][j+1] == board[i][j+2]== board[i][j+3]:
                         return letter
                 #checks diagonally (up right) for 4
-                if j < 4 and i < 4:
+                if j < 4 and i < 3:
                     if letter == board[i+1][j+1] == board[i+2][j+2] == \
-                       board[i+3][j+3]:
+                        board[i+3][j+3]:
                         return letter
                 #checks diagonally (up left) for 4
                 if j > 2 and i < 3:
