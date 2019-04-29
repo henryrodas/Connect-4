@@ -1,6 +1,6 @@
 ﻿""" 
 Henry Rodas
-4/23/19 
+4/30/19 
 Final Project
 This program will allow 2 users to play connect 4 against each other.
 """
@@ -24,8 +24,8 @@ def main():
 Description: Makes a window that allows the users to click on the number of
 rounds they want to play
 Parameters: None
-Returns: The number of rounds --> 1, 3, or 5
-Plan: I will use graphics to create boxes that will have 3 options for the
+Returns: The number of rounds --> 1,2,3,4, or 5
+Plan: I will use graphics to create buttons that will have 5 options for the
 number of rounds and I will check where the user clicked so that I can return
 the number of rounds they wanted.
 """
@@ -35,6 +35,8 @@ def askRound():
     roundwindow.yUp()
     height = roundwindow.getHeight()
     width = roundwindow.getHeight()
+
+    #draw all the buttons
     question = Text(Point(width/2, height*6.5/7),"HOW MANY ROUNDS DO YOU WANT TO PLAY?")
     button1 = Circle(Point(width/3, height*5/7),50)
     button1.setFill("red")
@@ -62,6 +64,7 @@ def askRound():
     buttonnum5 = Text(Point(width/2,height/7 -60),"5")
     buttonnum5.draw(roundwindow)
     question.draw(roundwindow)
+    
     #keeps on checking for the click on one of the buttons
     while clickButton == False:
         click = roundwindow.getMouse()
@@ -112,6 +115,7 @@ def askRound():
             clickButton = True
             roundwindow.close()
             return 5
+        
 """
 Description: Will run the game using the other major methods
 Parameters:
@@ -135,6 +139,7 @@ def connect4(rounds, win):
     score1 = 0
     score2 = 0
     moves = 0
+    #plays the number of rounds the user asked for
     for i in range(rounds):
         makeBoard(win)
         board = ["BBBBBBB","BBBBBBB","BBBBBBB","BBBBBBB","BBBBBBB",\
@@ -149,7 +154,7 @@ def connect4(rounds, win):
         roundsText.setSize(20)
         roundsText.draw(win)
         #checks if any of the players have won yet
-        while checkScore(board) == None or turns != 42:
+        while checkScore(board) == None and turn != 42:
             click = win.getMouse()
             for j in range(7):
                 if widthLength - circleRadiusHalf < click.getX() < widthLength + \
@@ -175,8 +180,9 @@ def connect4(rounds, win):
             time.sleep(3)
             winner.undraw()
             roundsText.undraw()
+        #checks if they had a draw
         elif turn == 42:
-            winner = Text(Point(width/2 + 30, height-20),"Both Players Tie The Round!")
+            winner = Text(Point(width/2 + 30, height-20),"Both Players Draw The Round!")
             winner.setSize(20)
             player2Score.undraw()
             winner.draw(win)
@@ -235,6 +241,7 @@ def playerMove(col, row, turn, board):
     turnList = ["O", "X"]
     if row < 6 and col < 7:
         board[row] = board[row][:col] + turnList[turn%2] + board[row][col+1:]
+
 """
 Description: Draws the connect 4 board 
 Parameters: 
@@ -254,6 +261,7 @@ def makeBoard(win):
     circleRadius = width/14.0 - 10
     xCenter = width/8
     yCenter = boardHeight/7
+    #even spaces out the circles
     for i in range(6):
         for i in range(7):
             circle = Circle(Point(xCenter,yCenter),circleRadius)
@@ -302,6 +310,7 @@ def checkScore(board):
                        board[i+3][j-3]:
                         return letter         
     return None
+
 """
 Description: Draws the circle on the board based on the player’s move
 Parameters: 
@@ -314,6 +323,7 @@ Plan: I will check for the coordinates of the click and based on where it is,
 I will draw a circle in one of the spots of the board. 
 """
 def clickCircle(turn, col, circleHeight, win):
+    #switches color depending on the turn
     colorList = ["yellow","red"]
     color = colorList[turn%2]
     width = win.getWidth()
