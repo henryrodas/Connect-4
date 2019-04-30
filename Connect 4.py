@@ -3,6 +3,11 @@ Henry Rodas
 4/30/19 
 Final Project
 This program will allow 2 users to play connect 4 against each other.
+Extensions:
+    -Made the buttons that allowed the user to choose rounds 1-5 instead of 1,3,
+    and 5
+    -Also made it so that it could find out ties since there are the options of
+    2 and 4 rounds
 """
 from graphics import*
 import time
@@ -205,21 +210,27 @@ def connect4(rounds, win):
             
         #checks if they played all the rounds
         if i + 1 == rounds:
+            #checks if player 1 wins
             if score1 > score2:
                 winner = Text(Point(width/2 + 30, height-20), "Player 1 Wins The Game!")
                 winner.setSize(20)
+                winner.setFill("red")
                 winner.draw(win)
                 time.sleep(5)
                 win.close()
+            #checks if player 2 wins
             elif score2 > score1:
                 winner = Text(Point(width/2 + 30, height-20), "Player 2 Wins The Game!")
                 winner.setSize(20)
+                winner.setFill("orange")
                 winner.draw(win)
                 time.sleep(5)
                 win.close()
+            #checks if both players tied
             elif score1 == score2:
                 winner = Text(Point(width/2 + 30, height-20), "Both Players Tie!")
                 winner.setSize(20)
+                winner.setFill("blue")
                 winner.draw(win)
                 time.sleep(5)
                 win.close()
